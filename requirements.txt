@@ -11,12 +11,14 @@ fastapi==0.104.1
 h11==0.14.0
 httptools==0.6.1
 idna==3.6
+isodate==0.6.1
 kink==0.7.0
 passlib==1.7.4
 pyasn1==0.5.1
 pycparser==2.21
 pydantic==2.5.2
 pydantic_core==2.14.5
+pyparsing==3.1.1
 python-dotenv==1.0.0
 python-jose==3.3.0
 python-multipart==0.0.6
