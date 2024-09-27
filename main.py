@@ -43,8 +43,11 @@ async def async_bootstrap(
     await bootstrap()
     try:
         yield
-    finally:
-        pass
+    except Exception as e:
+        structlog.stdlib.get_logger("api.error").exception(
+            "Uncaught exception"
+        )
+        raise e
 
 
 app = FastAPI(lifespan=async_bootstrap)
@@ -68,7 +71,6 @@ async def logging_middleware(
     try:
         response = await call_next(request)
     except Exception:
-        # TODO: Validate that we don't swallow exceptions (unit test?)
         structlog.stdlib.get_logger("api.error").exception(
             "Uncaught exception"
         )
@@ -102,7 +104,7 @@ async def logging_middleware(
         response.headers["X-Process-Time"] = str(
             process_time / 10**9
         )
-        return response
+    return response
 
 
 app.add_middleware(CorrelationIdMiddleware)

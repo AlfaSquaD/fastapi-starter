@@ -1,0 +1,27 @@
+{
+    "name": "Python Dev Container",
+    "image": "python:3.10", // Using an official Python image directly
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash",
+                "python.defaultInterpreterPath": "/usr/local/bin/python"
+            }
+        }
+    },
+    // Install necessary system packages and Python tools after container creation
+    "onCreateCommand": "apt-get update && apt-get upgrade -y",
+    // Install Python dependencies and development packages after the workspace is mounted
+    "postCreateCommand": "pip install --upgrade pip && pip install -e .",
+    "remoteUser": "root",
+    // Mount local folder to the /app directory inside the container
+    "mounts": [
+        "source=${localWorkspaceFolder},target=/app,type=bind"
+    ],
+    // Expose any required ports
+    "forwardPorts": [8000]
+}
